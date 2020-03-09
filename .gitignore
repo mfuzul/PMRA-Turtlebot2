@@ -1,0 +1,6 @@
+# Ignore VS code directory
+.vscode/
+
+# Ignore ROS devel and build (generated on catkin_make)
+ROS/catkin_ws/build
+ROS/catkin_ws/devel
