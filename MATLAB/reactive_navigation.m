@@ -8,7 +8,7 @@ v_ip_addr = '127.0.0.1';    % V-REP is in this machine
 v_port = 19999;             % Port is configured in V-REP model
     
 % Real Turtle
-r_ip_addr = '10.42.0.17';    % Check IP on real turtle's configuration 
+r_ip_addr = '127.0.0.1';    % Check IP on real turtle's configuration 
 r_port = 11311;             % Check port on real turtle's configuration
 
 % Behaviour
@@ -45,8 +45,10 @@ kinect_depth_sub = myTurtle.rossubscriber('/camera/depth/image_raw');
 sim_time_sub     = myTurtle.rossubscriber('/simulation/sim_time');
 
 % Creating the publishers's messages
+status_bar_msg    = myTurtle.rosmessage(vrep_st_bar_pub);
 velocity_msg      = myTurtle.rosmessage(kob_velocity_pub);
 console_print_msg = myTurtle.rosmessage(vrep_console_print_pub);
+console_open_msg  = myTurtle.rosmessage(vrep_console_open_pub);
 % -------------------------------------------------------------------------
 
 % Creating a V-REP's status bar notification
@@ -55,6 +57,9 @@ myTurtle.send(vrep_st_bar_pub, status_bar_msg);
 
 % ------------ V-REP's auxiliar console initialization --------------------
 myTurtle.send(vrep_console_open_pub, console_open_msg);
+
+sim_time_msg = myTurtle.receive(sim_time_sub);
+initial_sim_time = sim_time_msg.Data;
 
 disp('Initialized OK.');
 console_print_msg.Data = 'Initialized OK.';    
@@ -178,8 +183,10 @@ myTurtle.send(vrep_console_print_pub, console_print_msg);
 sim_time_msg = myTurtle.receive(sim_time_sub);
 elapsed_time = sim_time_msg.Data - initial_sim_time;
 disp(strcat('Elapsed simulation time:', num2str(elapsed_time),' seconds.'));
-console_print_msg.Data = strcat('Elapsed simulation time:', num2str(elapsed_time),' seconds.');    
+console_print_msg.Data = strcat('Elapsed simulation time: ', num2str(elapsed_time),' seconds.');    
 myTurtle.send(vrep_console_print_pub, console_print_msg);
+
+myTurtle.pause(1);
 
 % Closing the connection
 myTurtle.rosshutdown;

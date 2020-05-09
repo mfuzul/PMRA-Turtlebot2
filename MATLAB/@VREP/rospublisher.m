@@ -30,7 +30,7 @@ function [publisher, returnCode] = rospublisher(robot, topicname)
         returnCode = 0;
         
     elseif (robot.operating_mode == 1 || robot.operating_mode == 2) % ROS or MIXED
-        publisher = rospublisher(topiname); 
+        publisher = rospublisher(topicname); 
         returnCode = 0;      % Return code 
         
     end
