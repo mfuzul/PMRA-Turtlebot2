@@ -141,8 +141,8 @@ for i = (1:size(targets, 1))
         % Resultant angle       
         angle = atan2(ftoty, ftotx) - atan2(myVectory, myVectorx);
         
-        % Si el angulo es mayor que pi, vamos en sentido contrario (camino
-        % mas corto)
+        % If the angle is largert than PI we go in the opposite direction
+        % (shorter path)
         if(abs(angle) > pi)
             angular_velocity = -angle;
         else
